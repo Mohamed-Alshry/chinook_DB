@@ -1,0 +1,43 @@
+#Q1: Top ten artists in number of albums.
+
+SELECT Artist.Name, count(Album.ArtistId) as Count_Of_Albums
+FROM Artist
+join Album on Artist.ArtistId = Album.ArtistId
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 10;
+
+##########################################################
+
+#Q2: Top ten music genre.
+
+SELECT G.Name, count(T.GenreId) 
+FROM Genre G
+join Track T on T.GenreId = G.GenreId
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 10;
+
+#########################################################
+
+#Q3: Genre arrangement in Spain.
+
+SELECT Invoice.BillingCountry, Genre.Name, count(Genre.GenreId)
+FROM Invoice
+JOIN InvoiceLine on InvoiceLine.InvoiceId = Invoice.InvoiceId
+JOIN Track on Track.TrackId = InvoiceLine.TrackId
+JOIN Genre on Genre.GenreId = Track.GenreId
+WHERE Invoice.BillingCountry = 'Spain'
+GROUP by 1, 2
+ORDER by 3
+
+###########################################################
+
+#Q4: Percentage of sales per employee.
+
+SELECT Employee.FirstName, Employee.LastName, sum(Invoice.Total)
+FROM Employee
+JOIN Customer on Customer.SupportRepId = Employee.EmployeeId
+JOIN Invoice on Invoice.CustomerId = Customer.CustomerId
+group by 1
+ORDER by 2;
